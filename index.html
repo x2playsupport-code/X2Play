@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תיק עבודות עורך</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent-color: #6366f1;
+            --accent-glow: #818cf8;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 40px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* עיצוב הלוגו */
+        .site-logo {
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .site-logo:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px rgba(129, 140, 248, 0.6);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--accent-glow);
+            border: 1px solid var(--accent-color);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-glow);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .about-text {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .portfolio-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--accent-color);
+            padding-right: 12px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <!-- הצגת הלוגו -->
+            <img src="logo.jpg" alt="X2Play Logo" class="site-logo">
+            
+            <div>
+                <span class="badge">עורך וידאו מקצועי</span>
+            </div>
+            <h1>ברוכים הבאים לתיק העבודות שלי!</h1>
+            <p class="subtitle">עריכה ברמה של indeGame, TheCoen ועוד המון!</p>
+            <p class="about-text">
+                עם דגש על איכות, אומנות וחדשנות, אני שואף ליצור פריטים שלא רק נראים טוב, אלא גם מרגישים טוב ומחזיקים מעמד לאורך זמן. תודה שביקרתם בתיק העבודות שלי, ואני מצפה לשמוע מכם!
+            </p>
+        </header>
+
+        <section class="portfolio-section">
+            <h2 class="section-title">הפרויקט המרכזי שלי</h2>
+            
+            <div class="video-container">
+                <!-- החלף את YOUR_VIDEO_ID במזהה הסרטון מ-YouTube -->
+                <iframe src="https://www.youtube.com/embed/jEpFC1pCIHY" 
+                        title="תיק עבודות עורך" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <footer>
+            <p>© תיק עבודות X2Play</p>
+        </footer>
+    </div>
+
+</body>
+</html>
