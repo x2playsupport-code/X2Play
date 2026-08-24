@@ -40,7 +40,6 @@
             overflow-x: hidden;
         }
 
-        /* Neon Cursor */
         .cursor-glow {
             position: fixed;
             width: 350px;
@@ -58,7 +57,6 @@
             width: 100%;
         }
 
-        /* Header / Hero */
         header {
             text-align: center;
             padding: 50px 20px 40px;
@@ -124,7 +122,6 @@
             margin: 0 auto 30px;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -165,7 +162,6 @@
             color: var(--text-muted);
         }
 
-        /* Portfolio Tabs & Main Section */
         .portfolio-section {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -221,7 +217,6 @@
             border: 0;
         }
 
-        /* Before / After Interactive Slider */
         .slider-section {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -265,7 +260,6 @@
             box-shadow: 5px 0 20px rgba(0,0,0,0.5);
         }
 
-        /* Pricing Cards */
         .pricing-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -310,7 +304,6 @@
             margin-bottom: 10px;
         }
 
-        /* CTA & Form Section */
         .cta-section {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
             border: 1px solid rgba(99, 102, 241, 0.3);
@@ -399,7 +392,6 @@
             </div>
             
             <div class="video-container">
-                <!-- החלף את YOUR_VIDEO_ID במזהה הסרטון מ-YouTube -->
                 <iframe src="https://www.youtube.com/embed/OqkW0w_DRtM" 
                         title="תיק עבודות עורך" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -427,7 +419,7 @@
                     <li>Sound Design מלא</li>
                     <li>אפקטים וזום-אינים</li>
                 </ul>
-                <a href="https://discord.gg/XRG6RCeq3S" class="btn btn-primary">הזמן עריכה</a>
+                <a href="https://discord.com/users/1384620196307927162" target="_blank" class="btn btn-primary">הזמן עריכה</a>
             </div>
             <div class="price-card" style="border-color: var(--accent-primary);">
                 <h3 class="price-title">סרטון YouTube מלא</h3>
@@ -437,7 +429,7 @@
                     <li>תיקוני צבע ואפקטים מיוחדים</li>
                     <li>מוזיקה מותאמת אישית</li>
                 </ul>
-                <a href="https://discord.com" class="btn btn-primary">הזמן עריכה</a>
+                <a href="https://discord.com/users/1384620196307927162" target="_blank" class="btn btn-primary">הזמן עריכה</a>
             </div>
         </div>
 
@@ -446,7 +438,7 @@
             <h2 style="margin-bottom: 10px;">רוצים לקחת את הסרטונים שלכם לרמה הבאה?</h2>
             <p style="color: var(--text-muted); margin-bottom: 20px;">זמין לפרויקטים חדשים ועריכת תוכן לערוצי יוטיוב מובילים</p>
             <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                <a href="https://discord.com" target="_blank" class="btn btn-primary"><i class="fa-brands fa-discord"></i> דברו איתי ב-Discord</a>
+                <a href="https://discord.com/users/1384620196307927162" target="_blank" class="btn btn-primary"><i class="fa-brands fa-discord"></i> דברו איתי ב-Discord</a>
                 <a href="mailto:x2playsupport@gmail.com" class="btn btn-primary" style="background: rgba(255,255,255,0.1);"><i class="fa-solid fa-envelope"></i> שלחו מייל</a>
             </div>
         </section>
@@ -457,7 +449,6 @@
     </div>
 
     <script>
-        // Cursor Glow Effect
         const cursor = document.getElementById('cursorGlow');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
