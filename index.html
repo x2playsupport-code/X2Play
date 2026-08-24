@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>תיק עבודות עורך | X2Play</title>
+    <title>X2Play | Portfolio Supreme</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     
     <style>
         :root {
-            --bg-color: #070913;
-            --card-bg: rgba(18, 24, 43, 0.75);
-            --accent-primary: #6366f1;
-            --accent-secondary: #10b981;
-            --accent-glow: #818cf8;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --bg-dark: #030014;
+            --primary: #8b5cf6;
+            --primary-glow: #a855f7;
+            --secondary: #06b6d4;
+            --accent: #f43f5e;
+            --glass-bg: rgba(15, 12, 41, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-bright: #ffffff;
+            --text-dim: #94a3b8;
         }
 
         * {
@@ -27,187 +31,200 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.18) 0px, transparent 50%),
-                radial-gradient(at 90% 90%, rgba(16, 185, 129, 0.12) 0px, transparent 50%);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
+            background-color: var(--bg-dark);
+            color: var(--text-bright);
+            overflow-x: hidden;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            align-items: center;
+            padding: 40px 20px;
         }
 
-        .cursor-glow {
+        #bg-canvas {
             position: fixed;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
             pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-            z-index: 9999;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
+            z-index: 1;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 30px 70px rgba(139, 92, 246, 0.25),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         header {
+            padding: 60px 30px;
             text-align: center;
-            padding: 50px 20px 40px;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            margin-bottom: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
+            animation: pulseGlow 8s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .logo-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 25px;
         }
 
         .site-logo {
-            width: 100%;
-            max-width: 320px;
-            height: auto;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 35px rgba(99, 102, 241, 0.35);
-            transition: all 0.4s ease;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.6);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .site-logo:hover {
-            transform: scale(1.03) rotate(1deg);
-            box-shadow: 0 0 50px rgba(129, 140, 248, 0.6);
+        .logo-wrapper:hover .site-logo {
+            transform: scale(1.08) rotate(3deg);
+            box-shadow: 0 0 80px rgba(6, 182, 212, 0.8);
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--accent-glow);
-            border: 1px solid var(--accent-primary);
-            padding: 6px 18px;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.3));
+            border: 1px solid var(--primary);
+            padding: 8px 24px;
             border-radius: 50px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 700;
+            letter-spacing: 1px;
             margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+            animation: floatBadge 3s ease-in-out infinite alternate;
         }
 
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 12px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+        @keyframes floatBadge {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-6px); }
+        }
+
+        .glow-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #06b6d4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
         }
 
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--accent-glow);
+        .typing-text {
+            font-size: 1.4rem;
+            color: var(--secondary);
             font-weight: 600;
+            min-height: 2em;
             margin-bottom: 20px;
         }
 
         .about-text {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 720px;
-            margin: 0 auto 30px;
+            color: var(--text-dim);
+            font-size: 1.15rem;
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.8;
         }
 
-        .stats-grid {
+        .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
-        .stat-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 22px;
-            border-radius: 20px;
+        .feature-card {
+            padding: 35px 25px;
             text-align: center;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        .feature-card i {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
         }
 
-        .stat-card i {
-            font-size: 2rem;
-            color: var(--accent-glow);
+        .feature-card h3 {
+            font-size: 1.6rem;
             margin-bottom: 10px;
         }
 
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #fff;
+        .feature-card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
         }
 
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        .portfolio-box {
+            padding: 40px;
+            margin-bottom: 40px;
         }
 
-        .portfolio-section {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            padding: 35px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
             margin-bottom: 30px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, var(--primary-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .tab-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-muted);
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--accent-primary);
-            color: #fff;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
-        }
-
-        .video-container {
+        .video-wrapper {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
+            border-radius: 24px;
             overflow: hidden;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
         }
 
-        .video-container iframe {
+        .video-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -216,250 +233,298 @@
             border: 0;
         }
 
-        .slider-section {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            padding: 35px;
-            margin-bottom: 30px;
-        }
-
-        .before-after-box {
-            position: relative;
-            width: 100%;
-            height: 350px;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .ba-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .ba-before {
-            background: #1e293b;
-            color: #64748b;
-        }
-
-        .ba-after {
-            background: linear-gradient(135deg, #4f46e5, #059669);
-            color: #fff;
-            width: 50%;
-            border-right: 3px solid #fff;
-            box-shadow: 5px 0 20px rgba(0,0,0,0.5);
-        }
-
-        .pricing-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
         .price-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .price-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-primary);
-        }
-
-        .price-title {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .price-tag {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent-glow);
-            margin-bottom: 20px;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--secondary);
+            margin: 15px 0 25px;
+            text-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
         }
 
         .price-features {
             list-style: none;
-            color: var(--text-muted);
-            margin-bottom: 25px;
-            font-size: 0.95rem;
+            margin-bottom: 30px;
+            color: var(--text-dim);
         }
 
         .price-features li {
-            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .cta-section {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 28px;
-            padding: 35px;
-            text-align: center;
-            backdrop-filter: blur(12px);
-        }
-
-        .btn {
+        .btn-cyber {
+            position: relative;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 28px;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 36px;
             border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: var(--accent-primary);
+            font-size: 1.1rem;
+            font-weight: 800;
             color: #fff;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+            text-decoration: none;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.7);
+        .btn-cyber:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.8);
+        }
+
+        .btn-cyber::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(45deg) translateY(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-cyber:hover::after {
+            transform: rotate(45deg) translateY(100%);
+        }
+
+        .cta-box {
+            padding: 50px 30px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.15));
         }
 
         footer {
             text-align: center;
-            margin-top: 40px;
-            padding-bottom: 20px;
-            color: var(--text-muted);
+            margin-top: 50px;
+            color: var(--text-dim);
             font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .glow-title { font-size: 2.2rem; }
+            .site-logo { width: 160px; height: 160px; }
+            .portfolio-box { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cursor-glow" id="cursorGlow"></div>
+    <canvas id="bg-canvas"></canvas>
 
     <div class="container">
-        <!-- Hero Header -->
-        <header>
-            <img src="logo.jpg" alt="X2Play Logo" class="site-logo">
-            <div>
-                <span class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i> עורך וידאו מקצועי</span>
+        <!-- Header -->
+        <header class="glass-panel" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.2">
+            <div class="logo-wrapper">
+                <img src="logo.jpg" alt="X2Play Logo" class="site-logo">
             </div>
-            <h1>ברוכים הבאים לתיק העבודות שלי!</h1>
-            <p class="subtitle">עריכה ברמה של indeGame, TheCoen ועוד המון!</p>
+            <div>
+                <span class="badge"><i class="fa-solid fa-bolt"></i> PRO VIDEO EDITOR</span>
+            </div>
+            <h1 class="glow-title">X2Play Visuals</h1>
+            <div class="typing-text" id="typewriter"></div>
             <p class="about-text">
-                עם דגש על איכות, אומנות וחדשנות, אני שואף ליצור פריטים שלא רק נראים טוב, אלא גם מרגישים טוב ומחזיקים מעמד לאורך זמן. תודה שביקרתם בתיק העבודות שלי, ואני מצפה לשמוע מכם!
+                הופך חומרי גלם רגילים ליצירות מופת ויראליות. עריכה בקצב מטורף, Sound Design עתידני, ואפקטים ויזואליים שמרתקים את הצופים למסך עד השניה האחרונה.
             </p>
         </header>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fa-solid fa-bolt"></i>
-                <div class="stat-number">Pacing דינמי</div>
-                <div class="stat-label">שימור צופים מקסימלי</div>
+        <!-- Stats & Features -->
+        <div class="grid-3">
+            <div class="glass-panel feature-card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                <i class="fa-solid fa-bolt-lightning"></i>
+                <h3>Fast Pacing</h3>
+                <p>עריכה קצבית ומדויקת לשמירה על אחוז צפייה מקסימלי בכל סרטון.</p>
             </div>
-            <div class="stat-card">
-                <i class="fa-solid fa-compact-disc"></i>
-                <div class="stat-number">Sound Design</div>
-                <div class="stat-label">אפקטים קוליים מעבר לרמה</div>
+            <div class="glass-panel feature-card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                <i class="fa-solid fa-wave-square"></i>
+                <h3>SFX & Sound</h3>
+                <p>עיצוב סאונד מקיף ועשיר שמכניס את הצופה ישירות לתוך החוויה.</p>
             </div>
-            <div class="stat-card">
-                <i class="fa-solid fa-star"></i>
-                <div class="stat-number">איכות פרימיום</div>
-                <div class="stat-label">מותאם למנועי הקידום ב-YouTube</div>
+            <div class="glass-panel feature-card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h3>VFX Pro</h3>
+                <p>אפקטים ויזואליים מתקדמים, תיקוני צבע ואנימציות מעבר חדשניות.</p>
             </div>
         </div>
 
-        <!-- Video Portfolio Section -->
-        <section class="portfolio-section">
-            <div class="tab-buttons">
-                <button class="tab-btn active">סרטון מרכזי</button>
-                <button class="tab-btn">Shorts / TikTok</button>
-                <button class="tab-btn">Gaming Highlights</button>
-            </div>
-            
-            <div class="video-container">
+        <!-- Video Portfolio -->
+        <section class="glass-panel portfolio-box">
+            <h2 class="section-title">הצגת תכלית Showcase</h2>
+            <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/OqkW0w_DRtM" 
-                        title="תיק עבודות עורך" 
+                        title="X2Play Showreel" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
                 </iframe>
             </div>
         </section>
 
-        <!-- Interactive Before/After Showcase -->
-        <section class="slider-section">
-            <h2 style="text-align: center; margin-bottom: 20px;">הבדלי עריכה: לפני ואחרי</h2>
-            <div class="before-after-box">
-                <div class="ba-img ba-before">חומרי גלם מתישים (Raw)</div>
-                <div class="ba-img ba-after">תוצאה ערוכה ויוקרתית ✨</div>
+        <!-- Pricing Cards -->
+        <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="glass-panel price-card" data-tilt>
+                <div>
+                    <h3 style="font-size: 1.8rem;">Shorts / TikTok / Reels</h3>
+                    <div class="price-tag">עריכה ויראלית</div>
+                    <ul class="price-features">
+                        <li><i class="fa-solid fa-check" style="color:var(--secondary);"></i> כתוביות דינמיות ומעוצבות</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--secondary);"></i> אפקטים קוליים (SFX) חזקים</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--secondary);"></i> הזומות ואפקטי מעבר נקיים</li>
+                    </ul>
+                </div>
+                <button onclick="openDiscord()" class="btn-cyber"><i class="fa-brands fa-discord"></i> הזמן עכשיו</button>
             </div>
-        </section>
 
-        <!-- Pricing & Packages -->
-        <div class="pricing-section">
-            <div class="price-card">
-                <h3 class="price-title">Shorts / TikTok</h3>
-                <div class="price-tag">עריכה מהירה</div>
-                <ul class="price-features">
-                    <li>כתוביות דינמיות</li>
-                    <li>Sound Design מלא</li>
-                    <li>אפקטים וזום-אינים</li>
-                </ul>
-                <button onclick="openDiscord()" class="btn btn-primary">הזמן עריכה</button>
-            </div>
-            <div class="price-card" style="border-color: var(--accent-primary);">
-                <h3 class="price-title">סרטון YouTube מלא</h3>
-                <div class="price-tag">פרויקט פרימיום</div>
-                <ul class="price-features">
-                    <li>Pacing גבוה לשימור צופים</li>
-                    <li>תיקוני צבע ואפקטים מיוחדים</li>
-                    <li>מוזיקה מותאמת אישית</li>
-                </ul>
-                <button onclick="openDiscord()" class="btn btn-primary">הזמן עריכה</button>
+            <div class="glass-panel price-card" style="border-color: var(--primary);" data-tilt>
+                <div>
+                    <h3 style="font-size: 1.8rem;">YouTube Main Video</h3>
+                    <div class="price-tag">פרויקט פרימיום</div>
+                    <ul class="price-features">
+                        <li><i class="fa-solid fa-check" style="color:var(--primary-glow);"></i> Storytelling וקצב מותאם אישית</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--primary-glow);"></i> תיקוני צבע יוקרתיים (Color Grading)</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--primary-glow);"></i> מוזיקה מורשית ללא זכויות יוצרים</li>
+                    </ul>
+                </div>
+                <button onclick="openDiscord()" class="btn-cyber"><i class="fa-brands fa-discord"></i> הזמן עכשיו</button>
             </div>
         </div>
 
-        <!-- Contact CTA -->
-        <section class="cta-section">
-            <h2 style="margin-bottom: 10px;">רוצים לקחת את הסרטונים שלכם לרמה הבאה?</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">זמין לפרויקטים חדשים ועריכת תוכן לערוצי יוטיוב מובילים</p>
-            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                <button onclick="openDiscord()" class="btn btn-primary"><i class="fa-brands fa-discord"></i> דברו איתי ב-Discord</button>
-                <a href="mailto:x2playsupport@gmail.com" class="btn btn-primary" style="background: rgba(255,255,255,0.1);"><i class="fa-solid fa-envelope"></i> שלחו מייל</a>
+        <!-- CTA Section -->
+        <section class="glass-panel cta-box">
+            <h2 style="font-size: 2.5rem; margin-bottom: 15px;">מוכנים לייצר תוכן ברמה הבאה?</h2>
+            <p style="color: var(--text-dim); margin-bottom: 30px; font-size: 1.2rem;">דברו איתי עכשיו ונתחיל לעבוד על הפרויקט הבא שלכם!</p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <button onclick="openDiscord()" class="btn-cyber"><i class="fa-brands fa-discord"></i> צ'אט בדיסקורד</button>
+                <a href="mailto:x2playsupport@gmail.com" class="btn-cyber" style="background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border: 1px solid var(--glass-border);"><i class="fa-solid fa-envelope"></i> שלח מייל</a>
             </div>
         </section>
 
         <footer>
-            <p>© תיק עבודות X2Play</p>
+            <p>© X2Play Portfolio | Created with Next-Gen Aesthetics</p>
         </footer>
     </div>
 
     <script>
-        const cursor = document.getElementById('cursorGlow');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+        // --- 3D Particle Background System (Three.js) ---
+        const canvas = document.getElementById('bg-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const count = 1800;
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+
+        for (let i = 0; i < count * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 12;
+            colors[i] = Math.random();
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.025,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8
         });
 
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 3;
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.y += 0.0015;
+            particlesMesh.rotation.x += 0.001;
+
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- Typewriter Effect ---
+        const phrases = [
+            "עריכה ברמה הגבוהה ביותר בשוק",
+            "מתמחה בשימור צופים ובתוכן ויראלי",
+            "Sound Design & Visual Effects מתקדמים"
+        ];
+        let i = 0, j = 0, isDeleting = false;
+        const typewriterEl = document.getElementById("typewriter");
+
+        function typeLoop() {
+            const currentPhrase = phrases[i];
+            if (isDeleting) {
+                typewriterEl.textContent = currentPhrase.substring(0, j - 1);
+                j--;
+            } else {
+                typewriterEl.textContent = currentPhrase.substring(0, j + 1);
+                j++;
+            }
+
+            if (!isDeleting && j === currentPhrase.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && j === 0) {
+                isDeleting = false;
+                i = (i + 1) % phrases.length;
+            }
+
+            const speed = isDeleting ? 40 : 80;
+            setTimeout(typeLoop, speed);
+        }
+
+        typeLoop();
+
+        // --- Discord Link Copy & Redirect ---
         function openDiscord() {
             const discordUserId = "1384620196307927162";
             navigator.clipboard.writeText(discordUserId);
-            alert("מזהה הדיסקורד העתק ללוח: " + discordUserId + "\nמועבר לדיסקורד...");
+            alert("✨ מזהה הדיסקורד הועתק ללוח: " + discordUserId + "\nמעביר אותך לפרופיל בדיסקורד!");
             window.open("https://discord.com/users/" + discordUserId, "_blank");
         }
+
+        // --- Tilt Effect Setup ---
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 12,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.25
+        });
     </script>
 </body>
 </html>
