@@ -291,6 +291,25 @@
             background: linear-gradient(135deg, #10b981, #059669);
         }
 
+        .close-admin-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .close-admin-btn:hover {
+            transform: scale(1.15);
+        }
+
         footer {
             text-align: center;
             margin-top: 50px;
@@ -307,7 +326,10 @@
     <div id="admin-panel">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <h4 style="color: var(--primary-glow); font-size: 1.1rem;"><i class="fa-solid fa-user-shield"></i> פאנל מנהל סודי (X2Play Admin)</h4>
-            <span style="color: #10b981; font-size: 0.85rem;">מצב עריכה פעיל</span>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="color: #10b981; font-size: 0.85rem;">מצב עריכה פעיל</span>
+                <button onclick="closeAdminPanel()" class="close-admin-btn" title="סגור פאנל"><i class="fa-solid fa-xmark"></i></button>
+            </div>
         </div>
         <div class="admin-controls">
             <input type="text" id="media-input" class="admin-input" placeholder="הכנס מזהה סרטון יוטיוב (למשל: OqkW0w_DRtM) או קישור לתמונה">
@@ -417,24 +439,20 @@
             });
         }
 
-        // --- Secret Keyboard Shortcut Trigger (Ctrl + * + A) ---
-        const activeKeys = {};
-
+        // --- Secret Keyboard Shortcut Trigger (Ctrl + Shift + Q) ---
         document.addEventListener('keydown', (e) => {
-            activeKeys[e.key.toLowerCase()] = true;
-
-            if (activeKeys['control'] && (activeKeys['*'] || e.key === '*') && activeKeys['a']) {
+            // e.code מזהה את הלחצן הפיזי במקלדת (עובד בכל שפה - עברית, אנגלית וכו')
+            if (e.ctrlKey && e.shiftKey && e.code === 'KeyQ') {
                 e.preventDefault();
                 promptAdminPassword();
             }
         });
 
-        document.addEventListener('keyup', (e) => {
-            delete activeKeys[e.key.toLowerCase()];
-        });
-
         function promptAdminPassword() {
-            if (isAdmin) return;
+            if (isAdmin) {
+                document.getElementById('admin-panel').style.display = 'block';
+                return;
+            }
             const pass = prompt("הכנס סיסמת מנהל סודית:");
             if (pass === "osherigrobermancode123") {
                 isAdmin = true;
@@ -444,6 +462,10 @@
             } else if (pass !== null) {
                 alert("סיסמה שגויה!");
             }
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-panel').style.display = 'none';
         }
 
         function addMediaItem() {
@@ -476,7 +498,7 @@
 
         function saveChanges() {
             localStorage.setItem('x2play_portfolio', JSON.stringify(portfolioItems));
-            alert("✨ השינויים נשמרו בהצלחה ועודכנו באתר!");
+            alert("✨ השינויים נשמרו בהצלחה وعודכנו באתר!");
         }
 
         // --- 3D Background Particle Setup ---
