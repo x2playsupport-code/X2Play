@@ -66,7 +66,6 @@
             border-radius: 28px;
             margin-bottom: 30px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            transition: transform 0.3s ease;
         }
 
         .site-logo {
@@ -419,7 +418,7 @@
                     <li>Sound Design מלא</li>
                     <li>אפקטים וזום-אינים</li>
                 </ul>
-                <a href="https://discord.com/users/1384620196307927162" target="_blank" class="btn btn-primary">הזמן עריכה</a>
+                <button onclick="openDiscord()" class="btn btn-primary">הזמן עריכה</button>
             </div>
             <div class="price-card" style="border-color: var(--accent-primary);">
                 <h3 class="price-title">סרטון YouTube מלא</h3>
@@ -429,7 +428,7 @@
                     <li>תיקוני צבע ואפקטים מיוחדים</li>
                     <li>מוזיקה מותאמת אישית</li>
                 </ul>
-                <a href="https://discord.com/users/1384620196307927162" target="_blank" class="btn btn-primary">הזמן עריכה</a>
+                <button onclick="openDiscord()" class="btn btn-primary">הזמן עריכה</button>
             </div>
         </div>
 
@@ -438,7 +437,7 @@
             <h2 style="margin-bottom: 10px;">רוצים לקחת את הסרטונים שלכם לרמה הבאה?</h2>
             <p style="color: var(--text-muted); margin-bottom: 20px;">זמין לפרויקטים חדשים ועריכת תוכן לערוצי יוטיוב מובילים</p>
             <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                <a href="https://discord.com/users/1384620196307927162" target="_blank" class="btn btn-primary"><i class="fa-brands fa-discord"></i> דברו איתי ב-Discord</a>
+                <button onclick="openDiscord()" class="btn btn-primary"><i class="fa-brands fa-discord"></i> דברו איתי ב-Discord</button>
                 <a href="mailto:x2playsupport@gmail.com" class="btn btn-primary" style="background: rgba(255,255,255,0.1);"><i class="fa-solid fa-envelope"></i> שלחו מייל</a>
             </div>
         </section>
@@ -454,6 +453,13 @@
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
+
+        function openDiscord() {
+            const discordUserId = "1384620196307927162";
+            navigator.clipboard.writeText(discordUserId);
+            alert("מזהה הדיסקורד העתק ללוח: " + discordUserId + "\nמועבר לדיסקורד...");
+            window.open("https://discord.com/users/" + discordUserId, "_blank");
+        }
     </script>
 </body>
 </html>
